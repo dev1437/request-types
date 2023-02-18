@@ -1,0 +1,23 @@
+{
+    "name": "dev1437/request-types",
+    "autoload": {
+        "psr-4": {
+            "Dev1437\\RequestTypes\\": "src/"
+        }
+    },
+    "require-dev": {
+        "orchestra/testbench": "^3.3"
+    },
+    "config": {
+        "allow-plugins": {
+            "kylekatarnls/update-helper": false
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Dev1437\\RequestTypes\\RequestTypesServiceProvider"
+            ]
+        }
+    }
+}
