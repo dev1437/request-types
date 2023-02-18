@@ -54,12 +54,10 @@ class RouteInterfaceGenerator {
                         if (str_contains($field, '.')) {
                             continue;
                         }
-                        // $field = $this->typeResolver->fieldIsOptional($rules) ? "$field?" : $field;
                         $tsInterface[$field] = [
                             'type' => $this->typeResolver->rulesToType($rules),
                             'optional' => $this->typeResolver->fieldIsOptional($rules)
                         ];
-                        // $tsInterface[$field] = $this->typeResolver->rulesToType($rules);
                     }
                 }
             }
