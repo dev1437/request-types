@@ -2,7 +2,7 @@
 
 namespace Dev1437\RequestTypes;
 
-class TypeResolver implements TypesResolveInterface {
+class TypeResolver implements TypesResolverInterface {
 
     public function rulesToType(array|string $rules): string
     {

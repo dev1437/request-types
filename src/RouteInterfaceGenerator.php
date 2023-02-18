@@ -4,11 +4,10 @@ namespace Dev1437\RequestTypes;
 
 use ReflectionClass;
 use ReflectionFunction;
-use ReflectionMethod;
 
 class RouteInterfaceGenerator {
 
-    public function __construct(private TypesResolveInterface $typeResolver)
+    public function __construct(private TypesResolverInterface $typeResolver)
     {
         
     }
