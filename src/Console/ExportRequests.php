@@ -5,6 +5,7 @@ namespace Dev1437\RequestTypes\Console;
 use Dev1437\RequestTypes\CodeOutputGenerator;
 use Dev1437\RequestTypes\RouteFinder;
 use Dev1437\RequestTypes\RouteInterfaceGenerator;
+use Dev1437\RequestTypes\RulesResolver;
 use Dev1437\RequestTypes\TypeResolver;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
@@ -31,7 +32,7 @@ class ExportRequests extends Command
      * @return int
      */
     public function handle()
-    {   
+    {
         $allInterfaces = [];
 
         // RouteDiscovery
@@ -39,7 +40,9 @@ class ExportRequests extends Command
 
         $resolver = config('request-types.resolver', TypeResolver::class);
 
-        $routeInterfaceGenerator = new RouteInterfaceGenerator(new $resolver);
+        $ruleResolver = config('request-types.rules-resolver', RulesResolver::class);
+
+        $routeInterfaceGenerator = new RouteInterfaceGenerator(new $resolver, new $ruleResolver);
 
         foreach ($routes as $routeName => $route) {
             $interface = $routeInterfaceGenerator->routeToInterface($route);
@@ -51,7 +54,7 @@ class ExportRequests extends Command
         }
 
         $codeOutputGenerator = config('request-types.output.file', CodeOutputGenerator::class);
-    
+
         $code = (new $codeOutputGenerator)->interfacesToCode($allInterfaces);
 
         $path = $this->argument('path');

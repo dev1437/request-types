@@ -14,25 +14,31 @@ class TypeResolver implements TypesResolverInterface {
         // integer, decimal -> number
         $type = 'unknown';
         if (is_array($rules)) {
-            if (in_array(['string', 'date', 'email'], $rules)) {
-                $type = 'string';
-            } else if (in_array('boolean', $rules)) {
-                $type = 'boolean';
-            } else if (in_array('array', $rules)) {
-                $type = 'unknown[]';
-            } else if (in_array(['integer', 'decimal'], $rules)) {
-                $type = 'number';
+            foreach ($rules as $rule) {
+                $type = $this->checkRule($rule);
+                if ($type !== 'unknown') {
+                    break;
+                }
             }
         } else {
-            if (in_array($rules, ['string', 'date', 'email'])) {
-                $type = 'string';
-            } else if ($rules === 'boolean') {
-                $type = 'boolean';
-            } else if ($rules === 'array') {
-                $type = 'unknown[]';
-            } else if (in_array($rules, ['integer', 'decimal'])) {
-                $type = 'number';
-            }
+            $type = $this->checkRule($rules);
+        }
+        return $type;
+    }
+
+    private function checkRule(string $rule): string
+    {
+        $type = 'unknown';
+        $rule = explode(':', $rule)[0];
+
+        if (in_array($rule, ['string', 'date', 'email', 'date_format'])) {
+            $type = 'string';
+        } else if ($rule === 'boolean') {
+            $type = 'boolean';
+        } else if ($rule === 'array') {
+            $type = 'unknown[]';
+        } else if (in_array($rule, ['integer', 'decimal', 'numeric'])) {
+            $type = 'number';
         }
         return $type;
     }
